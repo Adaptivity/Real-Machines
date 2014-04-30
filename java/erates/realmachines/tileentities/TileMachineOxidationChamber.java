@@ -1,5 +1,6 @@
 package erates.realmachines.tileentities;
 
+import erates.realmachines.recipes.RecipeHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -91,9 +92,8 @@ public class TileMachineOxidationChamber extends TileEntityMachine implements II
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int var1, ItemStack var2) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		return RecipeHelper.isStackValidForOxidationChamber(itemStack, i);
 	}
 	
 	@Override

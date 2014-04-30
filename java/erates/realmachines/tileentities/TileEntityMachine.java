@@ -2,11 +2,15 @@ package erates.realmachines.tileentities;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import buildcraft.api.power.IPowerReceptor;
+import buildcraft.api.power.PowerHandler;
+import buildcraft.api.power.PowerHandler.PowerReceiver;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 
-public class TileEntityMachine extends TileEntity implements IEnergyHandler {
+public class TileEntityMachine extends TileEntity implements IEnergyHandler, IPowerReceptor {
 
 	protected EnergyStorage	storage	= new EnergyStorage(32000);
 
@@ -49,6 +53,28 @@ public class TileEntityMachine extends TileEntity implements IEnergyHandler {
 	@Override
 	public int getMaxEnergyStored(ForgeDirection from) {
 		return storage.getMaxEnergyStored();
+	}
+	
+	/*
+	 * IPowerReceptor
+	 */
+
+	@Override
+	public PowerReceiver getPowerReceiver(ForgeDirection side) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void doWork(PowerHandler workProvider) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public World getWorld() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
