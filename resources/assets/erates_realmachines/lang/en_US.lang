@@ -1,0 +1,9 @@
+itemGroup.tabRealMachines=Real Machines
+
+tile.rmSandMixer.name=Sand Mixer
+tile.rmOreChromium.name=Chromium Ore
+tile.rmOxidationChamber.name=Oxidation Chamber
+
+item.rmDustChromium.name=Chromium Dust
+item.rmDustChromite.name=Chromite Dust
+item.rmGreenSand.name=Greensand
