@@ -29,6 +29,6 @@ public class RecipeOxidationChamber {
 	}
 
 	public ItemStack getOutput() {
-		return outputSlot;
+		return outputSlot.copy();
 	}
 }

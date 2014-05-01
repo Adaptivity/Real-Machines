@@ -167,13 +167,7 @@ public class TileMachineOxidationChamber extends TileEntityMachine implements II
 				if (outputStack == null) {
 					setInventorySlotContents(3, recipeOutputStack);
 				} else {
-					System.out.println("outputStack: " + outputStack.stackSize);
-					System.out.println("recipeOutputStack: " + recipeOutputStack.stackSize);
-
 					outputStack.stackSize += recipeOutputStack.stackSize;
-
-					System.out.println("outputStack: " + outputStack.stackSize);
-
 					setInventorySlotContents(3, outputStack);
 				}
 				workDone = 0;
