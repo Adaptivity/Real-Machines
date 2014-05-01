@@ -6,96 +6,163 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.common.registry.GameRegistry;
 import erates.realmachines.blocks.ModBlocks;
 import erates.realmachines.items.ModItems;
 
 public class RecipeHelper {
 
-	private static ArrayList<RecipeOxidationChamber> oxidationChamberRecipeList = new ArrayList<RecipeOxidationChamber>();
-	private static ArrayList<RecipeSandMixer> sandMixerRecipeList = new ArrayList<RecipeSandMixer>();
+	private static ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
 
 	public static void registerRecipes() {
 		GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.machineOxidationChamber), new Object[] { "IDI", "IBI", "III", 'I', Items.iron_ingot, 'D', ModItems.itemChromiumDust, 'B', Items.bucket });
 		GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.machineSandMixer), new Object[] { "ISI", "ISI", "III", 'I', Items.iron_ingot, 'S', Items.stick });
 
-		registerOxidationChamberRecipe(new RecipeOxidationChamber(new ItemStack(ModItems.itemChromiumDust), new ItemStack(Items.iron_ingot), new ItemStack(ModItems.itemChromiumDust), new ItemStack(
-				ModItems.itemChromiteDust)));
-		registerSandMixerRecipe(new RecipeSandMixer(new ItemStack(Blocks.sand, 8), new ItemStack(Items.clay_ball, 1), FluidRegistry.WATER, 1000, new ItemStack(ModItems.itemGreenSand)));
+		registerRecipe(new RecipeOxidationChamber(new ItemStack(ModItems.itemChromiumDust), new ItemStack(Items.iron_ingot), new ItemStack(ModItems.itemChromiumDust), new ItemStack(ModItems.itemChromiteDust)));
+		registerRecipe(new RecipeSandMixer(new ItemStack(Blocks.sand, 8), new ItemStack(Items.clay_ball, 1), new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(ModItems.itemGreenSand)));
 	}
 
-	public static void registerOxidationChamberRecipe(RecipeOxidationChamber recipe) {
-		oxidationChamberRecipeList.add(recipe);
+	public static void registerRecipe(Recipe recipe) {
+		recipeList.add(recipe);
 	}
 
-	public static void registerSandMixerRecipe(RecipeSandMixer recipe) {
-		sandMixerRecipeList.add(recipe);
-	}
+	public static boolean isStackValidForSlot(int recipeType, ItemStack stack, int slotId) {
 
-	public static ArrayList<RecipeOxidationChamber> getOxidationChamberRecipeList() {
-		return oxidationChamberRecipeList;
-	}
-
-	public static ArrayList<RecipeSandMixer> getSandMixerRecipeList() {
-		return sandMixerRecipeList;
-	}
-
-	public static boolean isStackValidForOxidationChamber(ItemStack stack, int slotId) {
-		switch (slotId) {
-			case 0:
-				for (RecipeOxidationChamber recipe : oxidationChamberRecipeList) {
-					if (stack.getUnlocalizedName().equals(recipe.getInput1().getUnlocalizedName())) return true;
-				}
-				break;
-			case 1:
-				for (RecipeOxidationChamber recipe : oxidationChamberRecipeList) {
-					if (stack.getUnlocalizedName().equals(recipe.getInput2().getUnlocalizedName())) return true;
-				}
-				break;
-			case 2:
-				for (RecipeOxidationChamber recipe : oxidationChamberRecipeList) {
-					if (stack.getUnlocalizedName().equals(recipe.getInput3().getUnlocalizedName())) return true;
-				}
-				break;
+		for (Recipe recipe : recipeList) {
+			if (recipe.getRecipeType() == recipeType) {
+				if (recipe.getInputItemStack(slotId).getUnlocalizedName().equals(stack.getUnlocalizedName())) return true;
+			}
 		}
 
 		return false;
 	}
 
-	public static boolean isValidOxidationChamberRecipe(ItemStack input1, ItemStack input2, ItemStack input3) {
-		if (input1 == null || input2 == null || input3 == null) return false;
-		for (RecipeOxidationChamber recipe : oxidationChamberRecipeList) {
-			if (input1.getUnlocalizedName().equals(recipe.getInput1().getUnlocalizedName())) {
-				if (input2.getUnlocalizedName().equals(recipe.getInput2().getUnlocalizedName())) {
-					if (input3.getUnlocalizedName().equals(recipe.getInput3().getUnlocalizedName())) return true;
-				}
-			}
-		}
-		return false;
+	public static Recipe getValidRecipe(int recipeType, ItemStack[] inputItemStack) {
+		return getValidRecipe(recipeType, inputItemStack, null);
 	}
 
-	public static ItemStack getOxidationChamberRecipeOutput(ItemStack input1, ItemStack input2, ItemStack input3) {
-		if (input1 == null || input2 == null || input3 == null) return null;
-		for (RecipeOxidationChamber recipe : oxidationChamberRecipeList) {
-			if (input1.getUnlocalizedName().equals(recipe.getInput1().getUnlocalizedName())) {
-				if (input2.getUnlocalizedName().equals(recipe.getInput2().getUnlocalizedName())) {
-					if (input3.getUnlocalizedName().equals(recipe.getInput3().getUnlocalizedName())) return recipe.getOutput();
+	public static Recipe getValidRecipe(int recipeType, FluidStack[] inputFluidStack) {
+		return getValidRecipe(recipeType, null, inputFluidStack);
+	}
+
+	public static Recipe getValidRecipe(int recipeType, ItemStack[] inputItemStack, FluidStack[] inputFluidStack) {
+		for (Recipe recipe : recipeList) {
+			if (recipe.getRecipeType() == recipeType) {
+				boolean itemsOk = false;
+				boolean fluidsOk = false;
+				if (inputItemStack != null) {
+					boolean[] validItems = new boolean[inputItemStack.length];
+					if (inputItemStack.length == recipe.getInputItemStackCount()) {
+
+						for (int i = 0; i < inputItemStack.length; i++) {
+							if (inputItemStack[i] == null) {
+								validItems[i] = false;
+								break;
+							}
+							if (inputItemStack[i].getUnlocalizedName().equals(recipe.getInputItemStack(i).getUnlocalizedName())) {
+								validItems[i] = true;
+							} else {
+								validItems[i] = false;
+							}
+						}
+
+						boolean containsFalseItems = false;
+						for (boolean bo : validItems) {
+							if (!bo) {
+								containsFalseItems = true;
+								break;
+							}
+						}
+						if (!containsFalseItems) itemsOk = true;
+
+						if (inputFluidStack != null) {
+							if (inputFluidStack.length == recipe.getInputFluidStackCount()) {
+								boolean[] validFluids = new boolean[inputFluidStack.length];
+								if (inputFluidStack.length == recipe.getInputFluidStackCount()) {
+
+									for (int i = 0; i < inputItemStack.length; i++) {
+										if (inputFluidStack[i] == null) {
+											validFluids[i] = false;
+											break;
+										}
+										if (inputFluidStack[i].getFluid().getUnlocalizedName().equals(recipe.getInputFluidStack(i).getFluid().getUnlocalizedName())) {
+											validFluids[i] = true;
+										} else {
+											validFluids[i] = false;
+										}
+									}
+
+									boolean containsFalseFluids = false;
+									for (boolean bo : validFluids) {
+										if (!bo) {
+											containsFalseFluids = true;
+											break;
+										}
+									}
+									if (!containsFalseFluids) fluidsOk = true;
+								}
+							}
+						} else {
+							if (recipe.getInputFluidStackCount() == 0) {
+								fluidsOk = true;
+							}
+						}
+					}
+				} else {
+					if (recipe.getInputItemStackCount() == 0) {
+						itemsOk = true;
+					}
+
+					if (inputFluidStack != null) {
+						if (inputFluidStack.length == recipe.getInputFluidStackCount()) {
+							boolean[] validFluids = new boolean[inputFluidStack.length];
+							if (inputFluidStack.length == recipe.getInputFluidStackCount()) {
+
+								for (int i = 0; i < inputFluidStack.length; i++) {
+									if (inputFluidStack[i] == null) {
+										validFluids[i] = false;
+										break;
+									}
+									if (inputFluidStack[i].getFluid().getUnlocalizedName().equals(recipe.getInputFluidStack(i).getFluid().getUnlocalizedName())) {
+										validFluids[i] = true;
+									} else {
+										validFluids[i] = false;
+									}
+								}
+
+								boolean containsFalseFluids = false;
+								for (boolean bo : validFluids) {
+									if (!bo) {
+										containsFalseFluids = true;
+										break;
+									}
+								}
+								if (!containsFalseFluids) fluidsOk = true;
+							}
+						}
+					} else {
+						if (recipe.getInputFluidStackCount() == 0) {
+							fluidsOk = true;
+						}
+					}
 				}
+
+				if (itemsOk && fluidsOk) return recipe;
 			}
 		}
-
 		return null;
 	}
 
-	public static RecipeOxidationChamber getOxidationChamberRecipe(ItemStack input1, ItemStack input2, ItemStack input3) {
-		if (input1 == null || input2 == null || input3 == null) return null;
-		for (RecipeOxidationChamber recipe : oxidationChamberRecipeList) {
-			if (input1.getUnlocalizedName().equals(recipe.getInput1().getUnlocalizedName())) {
-				if (input2.getUnlocalizedName().equals(recipe.getInput2().getUnlocalizedName())) {
-					if (input3.getUnlocalizedName().equals(recipe.getInput3().getUnlocalizedName())) return recipe;
-				}
-			}
-		}
-		return null;
+	public static ItemStack getRecipeOutput(int recipeType, ItemStack[] inputItemStack) {
+		return getValidRecipe(recipeType, inputItemStack, null).getOutputItemStack();
+	}
+
+	public static ItemStack getRecipeOutput(int recipeType, FluidStack[] inputFluidStack) {
+		return getValidRecipe(recipeType, null, inputFluidStack).getOutputItemStack();
+	}
+
+	public static ItemStack getRecipeOutput(int recipeType, ItemStack[] inputItemStack, FluidStack[] inputFluidStack) {
+		return getValidRecipe(recipeType, inputItemStack, inputFluidStack).getOutputItemStack();
 	}
 }

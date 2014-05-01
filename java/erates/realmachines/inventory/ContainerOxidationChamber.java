@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import erates.realmachines.inventory.slots.SlotOxidationChamber;
+import erates.realmachines.recipes.Recipe;
 import erates.realmachines.recipes.RecipeHelper;
 import erates.realmachines.tileentities.TileMachineOxidationChamber;
 
@@ -62,38 +63,38 @@ public class ContainerOxidationChamber extends Container {
 			if (i >= 36) {
 				if (!mergeItemStack(stack, 0, 36, false)) { return null; }
 			} else {
-				if (RecipeHelper.isStackValidForOxidationChamber(stack, 0)) {
+				if (RecipeHelper.isStackValidForSlot(Recipe.OXIDATION_CHAMBER, stack, 0)) {
 					if (!mergeItemStack(stack, 36, 37, false)) {
-						if (RecipeHelper.isStackValidForOxidationChamber(stack, 1)) {
+						if (RecipeHelper.isStackValidForSlot(Recipe.OXIDATION_CHAMBER, stack, 1)) {
 							if (!mergeItemStack(stack, 37, 38, false)) {
-								if (RecipeHelper.isStackValidForOxidationChamber(stack, 2)) {
+								if (RecipeHelper.isStackValidForSlot(Recipe.OXIDATION_CHAMBER, stack, 2)) {
 									if (!mergeItemStack(stack, 38, 39, false)) { return null; }
 								} else {
 									return null;
 								}
 							}
 						} else {
-							if (RecipeHelper.isStackValidForOxidationChamber(stack, 2)) {
+							if (RecipeHelper.isStackValidForSlot(Recipe.OXIDATION_CHAMBER, stack, 2)) {
 								if (!mergeItemStack(stack, 38, 39, false)) { return null; }
 							} else {
 								return null;
 							}
 						}
 					} else {
-						if (RecipeHelper.isStackValidForOxidationChamber(stack, 1)) {
+						if (RecipeHelper.isStackValidForSlot(Recipe.OXIDATION_CHAMBER, stack, 1)) {
 							if (!mergeItemStack(stack, 37, 38, false)) {
-								if (RecipeHelper.isStackValidForOxidationChamber(stack, 2)) {
+								if (RecipeHelper.isStackValidForSlot(Recipe.OXIDATION_CHAMBER, stack, 2)) {
 									if (!mergeItemStack(stack, 38, 39, false)) { return null; }
 								}
 							} else {
-								if (RecipeHelper.isStackValidForOxidationChamber(stack, 2)) {
+								if (RecipeHelper.isStackValidForSlot(Recipe.OXIDATION_CHAMBER, stack, 2)) {
 									if (!mergeItemStack(stack, 38, 39, false)) { return null; }
 								} else {
 									return null;
 								}
 							}
 						} else {
-							if (RecipeHelper.isStackValidForOxidationChamber(stack, 2)) {
+							if (RecipeHelper.isStackValidForSlot(Recipe.OXIDATION_CHAMBER, stack, 2)) {
 								if (!mergeItemStack(stack, 38, 39, false)) { return null; }
 							} else {
 								return null;
@@ -101,14 +102,14 @@ public class ContainerOxidationChamber extends Container {
 						}
 					}
 				} else {
-					if (RecipeHelper.isStackValidForOxidationChamber(stack, 1)) {
+					if (RecipeHelper.isStackValidForSlot(Recipe.OXIDATION_CHAMBER, stack, 1)) {
 						if (!mergeItemStack(stack, 37, 38, false)) {
-							if (RecipeHelper.isStackValidForOxidationChamber(stack, 2)) {
+							if (RecipeHelper.isStackValidForSlot(Recipe.OXIDATION_CHAMBER, stack, 2)) {
 								if (!mergeItemStack(stack, 38, 39, false)) { return null; }
 							}
 						}
 					} else {
-						if (RecipeHelper.isStackValidForOxidationChamber(stack, 2)) {
+						if (RecipeHelper.isStackValidForSlot(Recipe.OXIDATION_CHAMBER, stack, 2)) {
 							if (!mergeItemStack(stack, 38, 39, false)) { return null; }
 						} else {
 							return null;

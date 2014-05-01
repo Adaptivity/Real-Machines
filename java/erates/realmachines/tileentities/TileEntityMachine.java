@@ -14,13 +14,13 @@ public class TileEntityMachine extends TileEntity {
 
 	protected static int POWER_USAGE = 25;
 
-	protected int workDone;
+	protected int currentWorkTime;
 	public static int MAX_WORK_TICKS = 40;
 
 	protected boolean isWorking = false;
 
 	public TileEntityMachine() {
-		workDone = 0;
+		currentWorkTime = 0;
 	}
 
 	/*
@@ -52,11 +52,11 @@ public class TileEntityMachine extends TileEntity {
 	 */
 
 	public int getWorkDone() {
-		return workDone;
+		return currentWorkTime;
 	}
 	
 	public void setWorkDone(int workDone){
-		this.workDone = workDone;
+		this.currentWorkTime = workDone;
 	}
 
 	public boolean isWorking() {
@@ -65,6 +65,6 @@ public class TileEntityMachine extends TileEntity {
 
 	@SideOnly(Side.CLIENT)
 	public int getCookProgressScaled(int scale) {
-		return workDone * scale / 200;
+		return currentWorkTime * scale / 200;
 	}
 }

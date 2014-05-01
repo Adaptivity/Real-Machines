@@ -6,6 +6,7 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import erates.realmachines.recipes.Recipe;
 import erates.realmachines.recipes.RecipeOxidationChamber;
 import erates.realmachines.recipes.RecipeHelper;
 
@@ -20,7 +21,7 @@ public class SlotOxidationChamber extends Slot {
 
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		return RecipeHelper.isStackValidForOxidationChamber(stack, id);
+		return RecipeHelper.isStackValidForSlot(Recipe.OXIDATION_CHAMBER, stack, id);
 	}
 
 }

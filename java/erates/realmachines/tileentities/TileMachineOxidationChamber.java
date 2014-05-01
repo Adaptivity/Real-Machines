@@ -4,6 +4,7 @@ import buildcraft.BuildCraftFactory;
 import buildcraft.api.power.PowerHandler;
 import buildcraft.api.power.PowerHandler.PowerReceiver;
 import buildcraft.api.power.PowerHandler.Type;
+import erates.realmachines.recipes.Recipe;
 import erates.realmachines.recipes.RecipeHelper;
 import erates.realmachines.recipes.RecipeOxidationChamber;
 import net.minecraft.entity.player.EntityPlayer;
@@ -97,7 +98,7 @@ public class TileMachineOxidationChamber extends TileEntityMachine implements II
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		return RecipeHelper.isStackValidForOxidationChamber(itemStack, i);
+		return RecipeHelper.isStackValidForSlot(Recipe.OXIDATION_CHAMBER, itemStack, i);
 	}
 
 	@Override
@@ -142,10 +143,10 @@ public class TileMachineOxidationChamber extends TileEntityMachine implements II
 
 		if (worldObj.isRemote) return;
 
-		ItemStack recipeOutputStack = RecipeHelper.getOxidationChamberRecipeOutput(getStackInSlot(0), getStackInSlot(1), getStackInSlot(2));
+		ItemStack recipeOutputStack = RecipeHelper.getRecipeOutput(Recipe.OXIDATION_CHAMBER, new ItemStack[] { getStackInSlot(0), getStackInSlot(1), getStackInSlot(2) });
 		if (recipeOutputStack == null) return;
 
-		if (RecipeHelper.isValidOxidationChamberRecipe(getStackInSlot(0), getStackInSlot(1), getStackInSlot(2))) {
+		if (RecipeHelper.getValidRecipe(Recipe.OXIDATION_CHAMBER, new ItemStack[] { getStackInSlot(0), getStackInSlot(1), getStackInSlot(2) }) != null) {
 			if (getStackInSlot(3) != null) {
 				if (getStackInSlot(3).getMaxStackSize() < getStackInSlot(3).stackSize + recipeOutputStack.stackSize) return;
 			}
@@ -157,14 +158,14 @@ public class TileMachineOxidationChamber extends TileEntityMachine implements II
 			}
 
 			isWorking = true;
-			workDone++;
-			if (workDone == MAX_WORK_TICKS) {
+			currentWorkTime++;
+			if (currentWorkTime == MAX_WORK_TICKS) {
 
-				RecipeOxidationChamber recipe = RecipeHelper.getOxidationChamberRecipe(getStackInSlot(0), getStackInSlot(1), getStackInSlot(2));
+				Recipe recipe = RecipeHelper.getValidRecipe(Recipe.OXIDATION_CHAMBER, new ItemStack[] { getStackInSlot(0), getStackInSlot(1), getStackInSlot(2) });
 
-				decrStackSize(0, recipe.getInput1().stackSize);
-				decrStackSize(1, recipe.getInput2().stackSize);
-				decrStackSize(2, recipe.getInput3().stackSize);
+				decrStackSize(0, recipe.getInputItemStack(0).stackSize);
+				decrStackSize(1, recipe.getInputItemStack(1).stackSize);
+				decrStackSize(2, recipe.getInputItemStack(2).stackSize);
 
 				ItemStack outputStack = getStackInSlot(3);
 				if (outputStack == null) {
@@ -173,11 +174,11 @@ public class TileMachineOxidationChamber extends TileEntityMachine implements II
 					outputStack.stackSize += recipeOutputStack.stackSize;
 					setInventorySlotContents(3, outputStack);
 				}
-				workDone = 0;
+				currentWorkTime = 0;
 				isWorking = false;
 			}
 		} else {
-			workDone = 0;
+			currentWorkTime = 0;
 			isWorking = false;
 		}
 	}
