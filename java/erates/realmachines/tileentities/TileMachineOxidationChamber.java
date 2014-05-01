@@ -139,13 +139,8 @@ public class TileMachineOxidationChamber extends TileEntityMachine implements II
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		if (worldObj.isRemote) return;
 
-		if (mjStored > POWER_USAGE) {
-			mjStored -= POWER_USAGE;
-		} else {
-			return;
-		}
+		if (worldObj.isRemote) return;
 
 		ItemStack recipeOutputStack = RecipeHelper.getOxidationChamberRecipeOutput(getStackInSlot(0), getStackInSlot(1), getStackInSlot(2));
 		if (recipeOutputStack == null) return;
@@ -155,8 +150,16 @@ public class TileMachineOxidationChamber extends TileEntityMachine implements II
 				if (getStackInSlot(3).getMaxStackSize() < getStackInSlot(3).stackSize + recipeOutputStack.stackSize) return;
 			}
 
+			if (mjStored > POWER_USAGE) {
+				mjStored -= POWER_USAGE;
+			} else {
+				return;
+			}
+
+			isWorking = true;
 			workDone++;
-			if (workDone == maxWorkAmount) {
+			if (workDone == MAX_WORK_TICKS) {
+
 				RecipeOxidationChamber recipe = RecipeHelper.getOxidationChamberRecipe(getStackInSlot(0), getStackInSlot(1), getStackInSlot(2));
 
 				decrStackSize(0, recipe.getInput1().stackSize);
@@ -171,14 +174,11 @@ public class TileMachineOxidationChamber extends TileEntityMachine implements II
 					setInventorySlotContents(3, outputStack);
 				}
 				workDone = 0;
+				isWorking = false;
 			}
 		} else {
 			workDone = 0;
+			isWorking = false;
 		}
 	}
-
-	public int getPercentageWorkDone() {
-		return (int) ((workDone / maxWorkAmount) * 100);
-	}
-
 }

@@ -1,4 +1,4 @@
-package erates.realmachines.client.interfaces.slots;
+package erates.realmachines.inventory.slots;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;

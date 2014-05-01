@@ -1,5 +1,7 @@
 package erates.realmachines.tileentities;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.tileentity.TileEntity;
 import buildcraft.api.mj.MjBattery;
 
@@ -9,15 +11,16 @@ public class TileEntityMachine extends TileEntity {
 
 	@MjBattery(maxReceivedPerCycle = 25, maxCapacity = 1500, minimumConsumption = 10)
 	protected double mjStored = 0;
-	
+
 	protected static int POWER_USAGE = 25;
-	
+
 	protected int workDone;
-	protected int maxWorkAmount;
-	
-	public TileEntityMachine(){
+	public static int MAX_WORK_TICKS = 40;
+
+	protected boolean isWorking = false;
+
+	public TileEntityMachine() {
 		workDone = 0;
-		maxWorkAmount = 40;
 	}
 
 	/*
@@ -47,4 +50,21 @@ public class TileEntityMachine extends TileEntity {
 	 * @Override public int getMaxEnergyStored(ForgeDirection from) { return
 	 * storage.getMaxEnergyStored(); }
 	 */
+
+	public int getWorkDone() {
+		return workDone;
+	}
+	
+	public void setWorkDone(int workDone){
+		this.workDone = workDone;
+	}
+
+	public boolean isWorking() {
+		return isWorking;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public int getCookProgressScaled(int scale) {
+		return workDone * scale / 200;
+	}
 }

@@ -2,7 +2,8 @@ package erates.realmachines.client.interfaces.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import erates.realmachines.client.interfaces.containers.ContainerOxidationChamber;
+import erates.realmachines.inventory.ContainerOxidationChamber;
+import erates.realmachines.tileentities.TileEntityMachine;
 import erates.realmachines.tileentities.TileMachineOxidationChamber;
 import erates.realmachines.tileentities.TileMachineSandMixer;
 import net.minecraft.client.Minecraft;
@@ -32,6 +33,14 @@ public class GuiOxidationChamber extends GuiContainer {
 		Minecraft.getMinecraft().renderEngine.bindTexture(textureBackground);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
+		int size;
+
+		if (oxidationChamber.isWorking()) {
+			System.out.println("isWorking");
+			size = oxidationChamber.getCookProgressScaled(14);
+			System.out.println("size: " + size);
+			drawTexturedModalRect(guiLeft + 60, guiTop + 30, xSize, 0, size, 8);
+		}
 	}
 
 	@Override

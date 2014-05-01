@@ -1,4 +1,4 @@
-package erates.realmachines.client.interfaces.containers;
+package erates.realmachines.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -7,7 +7,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import erates.realmachines.client.interfaces.slots.SlotSandMixer;
+import erates.realmachines.inventory.slots.SlotSandMixer;
 import erates.realmachines.tileentities.TileMachineSandMixer;
 
 public class ContainerSandMixer extends Container {

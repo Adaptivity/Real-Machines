@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import erates.realmachines.client.interfaces.containers.ContainerSandMixer;
+import erates.realmachines.inventory.ContainerSandMixer;
 import erates.realmachines.tileentities.TileMachineSandMixer;
 
 @SideOnly(Side.CLIENT)

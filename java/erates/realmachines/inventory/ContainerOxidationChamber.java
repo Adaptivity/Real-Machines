@@ -1,19 +1,22 @@
-package erates.realmachines.client.interfaces.containers;
+package erates.realmachines.inventory;
 
-import erates.realmachines.client.interfaces.slots.SlotOxidationChamber;
-import erates.realmachines.recipes.RecipeHelper;
-import erates.realmachines.tileentities.TileMachineOxidationChamber;
-import erates.realmachines.tileentities.TileMachineSandMixer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import erates.realmachines.inventory.slots.SlotOxidationChamber;
+import erates.realmachines.recipes.RecipeHelper;
+import erates.realmachines.tileentities.TileMachineOxidationChamber;
 
 public class ContainerOxidationChamber extends Container {
 
 	private TileMachineOxidationChamber oxidationChamber;
+	private int lastCookTime;
+	private int lastBurnTime;
 
 	public ContainerOxidationChamber(InventoryPlayer invPlayer, TileMachineOxidationChamber te) {
 		this.oxidationChamber = te;
@@ -131,6 +134,42 @@ public class ContainerOxidationChamber extends Container {
 
 	public TileMachineOxidationChamber getTileEntity() {
 		return oxidationChamber;
+	}
+
+	public void addCraftingToCrafters(ICrafting par1ICrafting) {
+		super.addCraftingToCrafters(par1ICrafting);
+		par1ICrafting.sendProgressBarUpdate(this, 0, oxidationChamber.MAX_WORK_TICKS);
+		par1ICrafting.sendProgressBarUpdate(this, 1, oxidationChamber.getWorkDone());
+	}
+
+	public void detectAndSendChanges() {
+		super.detectAndSendChanges();
+
+		for (int i = 0; i < this.crafters.size(); ++i) {
+			ICrafting icrafting = (ICrafting) this.crafters.get(i);
+
+			if (lastCookTime != oxidationChamber.MAX_WORK_TICKS) {
+				icrafting.sendProgressBarUpdate(this, 0, oxidationChamber.MAX_WORK_TICKS);
+			}
+
+			if (lastBurnTime != oxidationChamber.getWorkDone()) {
+				icrafting.sendProgressBarUpdate(this, 1, oxidationChamber.getWorkDone());
+			}
+		}
+
+		lastCookTime = oxidationChamber.MAX_WORK_TICKS;
+		lastBurnTime = oxidationChamber.getWorkDone();
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void updateProgressBar(int par1, int par2) {
+		if (par1 == 0) {
+			oxidationChamber.MAX_WORK_TICKS = par2;
+		}
+
+		if (par1 == 1) {
+			oxidationChamber.setWorkDone(par2);
+		}
 	}
 
 }
