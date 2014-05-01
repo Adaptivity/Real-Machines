@@ -155,14 +155,20 @@ public class RecipeHelper {
 	}
 
 	public static ItemStack getRecipeOutput(int recipeType, ItemStack[] inputItemStack) {
-		return getValidRecipe(recipeType, inputItemStack, null).getOutputItemStack();
+		Recipe recipe = getValidRecipe(recipeType, inputItemStack, null);
+		if (recipe == null) return null;
+		return recipe.getOutputItemStack();
 	}
 
 	public static ItemStack getRecipeOutput(int recipeType, FluidStack[] inputFluidStack) {
-		return getValidRecipe(recipeType, null, inputFluidStack).getOutputItemStack();
+		Recipe recipe = getValidRecipe(recipeType, null, inputFluidStack);
+		if (recipe == null) return null;
+		return recipe.getOutputItemStack();
 	}
 
 	public static ItemStack getRecipeOutput(int recipeType, ItemStack[] inputItemStack, FluidStack[] inputFluidStack) {
-		return getValidRecipe(recipeType, inputItemStack, inputFluidStack).getOutputItemStack();
+		Recipe recipe = getValidRecipe(recipeType, inputItemStack, inputFluidStack);
+		if (recipe == null) return null;
+		return recipe.getOutputItemStack();
 	}
 }

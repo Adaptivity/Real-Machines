@@ -144,11 +144,15 @@ public class TileMachineOxidationChamber extends TileEntityMachine implements II
 		if (worldObj.isRemote) return;
 
 		ItemStack recipeOutputStack = RecipeHelper.getRecipeOutput(Recipe.OXIDATION_CHAMBER, new ItemStack[] { getStackInSlot(0), getStackInSlot(1), getStackInSlot(2) });
-		if (recipeOutputStack == null) return;
+		if (recipeOutputStack == null) {
+			currentWorkTime = 0;
+			return;
+		}
 
 		if (RecipeHelper.getValidRecipe(Recipe.OXIDATION_CHAMBER, new ItemStack[] { getStackInSlot(0), getStackInSlot(1), getStackInSlot(2) }) != null) {
 			if (getStackInSlot(3) != null) {
 				if (getStackInSlot(3).getMaxStackSize() < getStackInSlot(3).stackSize + recipeOutputStack.stackSize) return;
+				if (!getStackInSlot(3).getUnlocalizedName().equals(recipeOutputStack.getUnlocalizedName())) return;
 			}
 
 			if (mjStored > POWER_USAGE) {

@@ -39,15 +39,15 @@ public abstract class Recipe {
 	}
 
 	public ItemStack getInputItemStack(int i) {
-		return inputItemStacks != null ? (inputItemStacks.length <= i ? inputItemStacks[i] : null) : null;
+		return inputItemStacks != null ? (inputItemStacks.length > i ? inputItemStacks[i] : null) : null;
 	}
 
 	public FluidStack getInputFluidStack(int i) {
-		return inputFluidStacks != null ? (inputFluidStacks.length <= i ? inputFluidStacks[i] : null) : null;
+		return inputFluidStacks != null ? (inputFluidStacks.length > i ? inputFluidStacks[i] : null) : null;
 	}
 
 	public ItemStack getOutputItemStack() {
-		return outputItemStack;
+		return outputItemStack.copy();
 	}
 
 	public int getInputItemStackCount() {

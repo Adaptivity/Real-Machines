@@ -9,7 +9,7 @@ public class TileEntityMachine extends TileEntity {
 
 	// protected EnergyStorage storage = new EnergyStorage(32000);
 
-	@MjBattery(maxReceivedPerCycle = 25, maxCapacity = 1500, minimumConsumption = 10)
+	@MjBattery(maxCapacity = 1500)
 	protected double mjStored = 0;
 
 	protected static int POWER_USAGE = 25;
@@ -54,8 +54,8 @@ public class TileEntityMachine extends TileEntity {
 	public int getWorkDone() {
 		return currentWorkTime;
 	}
-	
-	public void setWorkDone(int workDone){
+
+	public void setWorkDone(int workDone) {
 		this.currentWorkTime = workDone;
 	}
 
