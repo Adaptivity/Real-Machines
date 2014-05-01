@@ -15,6 +15,7 @@ import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
 import erates.realmachines.blocks.ModBlocks;
 import erates.realmachines.client.interfaces.GuiHandler;
 import erates.realmachines.creativetabs.RealMachinesCreativeTab;
@@ -22,6 +23,7 @@ import erates.realmachines.items.ModItems;
 import erates.realmachines.lib.Reference;
 import erates.realmachines.proxies.CommonProxy;
 import erates.realmachines.recipes.RecipeHelper;
+import erates.realmachines.world.RealMachinesWorldGenerator;
 
 @Mod(modid = Reference.MODID, version = Reference.VERSION, name = Reference.MODNAME)
 public class RealMachines {
@@ -44,6 +46,8 @@ public class RealMachines {
 
 		proxy.initSounds();
 		proxy.initRenderers();
+
+		GameRegistry.registerWorldGenerator(new RealMachinesWorldGenerator(), 1);
 	}
 
 	@EventHandler
