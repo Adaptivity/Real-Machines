@@ -61,4 +61,41 @@ public class RecipeHelper {
 
 		return false;
 	}
+
+	public static boolean isValidOxidationChamberRecipe(ItemStack input1, ItemStack input2, ItemStack input3) {
+		if (input1 == null || input2 == null || input3 == null) return false;
+		for (RecipeOxidationChamber recipe : oxidationChamberRecipeList) {
+			if (input1.getUnlocalizedName().equals(recipe.getInput1().getUnlocalizedName())) {
+				if (input2.getUnlocalizedName().equals(recipe.getInput2().getUnlocalizedName())) {
+					if (input3.getUnlocalizedName().equals(recipe.getInput3().getUnlocalizedName())) return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public static ItemStack getOxidationChamberRecipeOutput(ItemStack input1, ItemStack input2, ItemStack input3) {
+		if (input1 == null || input2 == null || input3 == null) return null;
+		for (RecipeOxidationChamber recipe : oxidationChamberRecipeList) {
+			if (input1.getUnlocalizedName().equals(recipe.getInput1().getUnlocalizedName())) {
+				if (input2.getUnlocalizedName().equals(recipe.getInput2().getUnlocalizedName())) {
+					if (input3.getUnlocalizedName().equals(recipe.getInput3().getUnlocalizedName())) return recipe.getOutput();
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public static RecipeOxidationChamber getOxidationChamberRecipe(ItemStack input1, ItemStack input2, ItemStack input3) {
+		if (input1 == null || input2 == null || input3 == null) return null;
+		for (RecipeOxidationChamber recipe : oxidationChamberRecipeList) {
+			if (input1.getUnlocalizedName().equals(recipe.getInput1().getUnlocalizedName())) {
+				if (input2.getUnlocalizedName().equals(recipe.getInput2().getUnlocalizedName())) {
+					if (input3.getUnlocalizedName().equals(recipe.getInput3().getUnlocalizedName())) return recipe;
+				}
+			}
+		}
+		return null;
+	}
 }

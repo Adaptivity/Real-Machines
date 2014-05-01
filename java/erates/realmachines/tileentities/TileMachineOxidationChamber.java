@@ -1,21 +1,29 @@
 package erates.realmachines.tileentities;
 
+import buildcraft.BuildCraftFactory;
+import buildcraft.api.power.PowerHandler;
+import buildcraft.api.power.PowerHandler.PowerReceiver;
+import buildcraft.api.power.PowerHandler.Type;
 import erates.realmachines.recipes.RecipeHelper;
+import erates.realmachines.recipes.RecipeOxidationChamber;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileMachineOxidationChamber extends TileEntityMachine implements IInventory {
 
-	private ItemStack[]	items;
-	
-	public TileMachineOxidationChamber(){
+	private ItemStack[] items;
+
+	public TileMachineOxidationChamber() {
+		super();
 		items = new ItemStack[4];
 	}
-	
+
 	@Override
 	public int getSizeInventory() {
 		return items.length;
@@ -81,21 +89,17 @@ public class TileMachineOxidationChamber extends TileEntityMachine implements II
 
 	@Override
 	public void openInventory() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void closeInventory() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		return RecipeHelper.isStackValidForOxidationChamber(itemStack, i);
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
@@ -130,6 +134,57 @@ public class TileMachineOxidationChamber extends TileEntityMachine implements II
 				setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(item));
 			}
 		}
+	}
+
+	@Override
+	public void updateEntity() {
+		super.updateEntity();
+		if (worldObj.isRemote) return;
+
+		if (mjStored > POWER_USAGE) {
+			mjStored -= POWER_USAGE;
+		} else {
+			return;
+		}
+
+		ItemStack recipeOutputStack = RecipeHelper.getOxidationChamberRecipeOutput(getStackInSlot(0), getStackInSlot(1), getStackInSlot(2));
+		if (recipeOutputStack == null) return;
+
+		if (RecipeHelper.isValidOxidationChamberRecipe(getStackInSlot(0), getStackInSlot(1), getStackInSlot(2))) {
+			if (getStackInSlot(3) != null) {
+				if (getStackInSlot(3).getMaxStackSize() < getStackInSlot(3).stackSize + recipeOutputStack.stackSize) return;
+			}
+
+			workDone++;
+			if (workDone == maxWorkAmount) {
+				RecipeOxidationChamber recipe = RecipeHelper.getOxidationChamberRecipe(getStackInSlot(0), getStackInSlot(1), getStackInSlot(2));
+
+				decrStackSize(0, recipe.getInput1().stackSize);
+				decrStackSize(1, recipe.getInput2().stackSize);
+				decrStackSize(2, recipe.getInput3().stackSize);
+
+				ItemStack outputStack = getStackInSlot(3);
+				if (outputStack == null) {
+					setInventorySlotContents(3, recipeOutputStack);
+				} else {
+					System.out.println("outputStack: " + outputStack.stackSize);
+					System.out.println("recipeOutputStack: " + recipeOutputStack.stackSize);
+
+					outputStack.stackSize += recipeOutputStack.stackSize;
+
+					System.out.println("outputStack: " + outputStack.stackSize);
+
+					setInventorySlotContents(3, outputStack);
+				}
+				workDone = 0;
+			}
+		} else {
+			workDone = 0;
+		}
+	}
+
+	public int getPercentageWorkDone() {
+		return (int) ((workDone / maxWorkAmount) * 100);
 	}
 
 }
