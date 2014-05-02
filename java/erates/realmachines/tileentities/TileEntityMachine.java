@@ -17,10 +17,10 @@ public class TileEntityMachine extends TileEntity implements IInventory {
 	@MjBattery(maxCapacity = 1500)
 	protected double mjStored = 0;
 
-	protected static int POWER_USAGE = 25;
+	protected static int POWER_USAGE = 30;
 
 	protected int currentWorkTime;
-	public static int MAX_WORK_TICKS = 40;
+	public static int MAX_WORK_TICKS = 20;
 
 	protected boolean isWorking = false;
 
@@ -106,5 +106,25 @@ public class TileEntityMachine extends TileEntity implements IInventory {
 
 		NBTTagCompound p = (NBTTagCompound) compound.getTag("inventory");
 		_inventory.readFromNBT(p);
+	}
+
+	public int getCookProgressScaled(int i) {
+		return (currentWorkTime / MAX_WORK_TICKS) / i;
+	}
+
+	public int getCurrentWorkTime() {
+		return currentWorkTime;
+	}
+
+	public int getMaxWorkTime() {
+		return MAX_WORK_TICKS;
+	}
+
+	public void setCurrentWorkTime(int currentWorkTime) {
+		this.currentWorkTime = currentWorkTime;
+	}
+
+	public void setMaxWorkTime(int maxWorkTime) {
+		this.MAX_WORK_TICKS = maxWorkTime;
 	}
 }

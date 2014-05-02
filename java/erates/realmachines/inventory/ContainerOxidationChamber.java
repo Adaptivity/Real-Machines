@@ -1,8 +1,11 @@
 package erates.realmachines.inventory;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import buildcraft.core.gui.slots.SlotValidated;
@@ -12,8 +15,11 @@ import erates.realmachines.tileentities.TileMachineOxidationChamber;
 
 public class ContainerOxidationChamber extends ContainerMachine {
 
+	private TileMachineOxidationChamber oxidationChamber;
+
 	public ContainerOxidationChamber(InventoryPlayer invPlayer, TileMachineOxidationChamber oxidationChamber) {
 		super(Recipe.OXIDATION_CHAMBER, oxidationChamber);
+		this.oxidationChamber = oxidationChamber;
 
 		// Player hotbar
 		for (int x = 0; x < 9; x++) {

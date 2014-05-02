@@ -33,14 +33,10 @@ public class GuiOxidationChamber extends GuiContainer {
 		Minecraft.getMinecraft().renderEngine.bindTexture(textureBackground);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		int size;
-
-		/*if (oxidationChamber.isWorking()) {
-			System.out.println("isWorking");
-			size = oxidationChamber.getCookProgressScaled(14);
-			System.out.println("size: " + size);
-			drawTexturedModalRect(guiLeft + 60, guiTop + 30, xSize, 0, size, 8);
-		}*/
+		int i1;
+		
+		i1 = oxidationChamber.getCookProgressScaled(14);
+		drawTexturedModalRect(guiLeft + 60, guiTop + 30, xSize, 0, i1, 8);
 	}
 
 	@Override
