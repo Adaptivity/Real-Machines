@@ -35,12 +35,12 @@ public class GuiOxidationChamber extends GuiContainer {
 
 		int size;
 
-		if (oxidationChamber.isWorking()) {
+		/*if (oxidationChamber.isWorking()) {
 			System.out.println("isWorking");
 			size = oxidationChamber.getCookProgressScaled(14);
 			System.out.println("size: " + size);
 			drawTexturedModalRect(guiLeft + 60, guiTop + 30, xSize, 0, size, 8);
-		}
+		}*/
 	}
 
 	@Override

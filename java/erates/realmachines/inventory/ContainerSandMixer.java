@@ -5,9 +5,8 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import erates.realmachines.inventory.slots.SlotSandMixer;
+import buildcraft.core.gui.slots.SlotValidated;
 import erates.realmachines.tileentities.TileMachineSandMixer;
 
 public class ContainerSandMixer extends Container {
@@ -31,11 +30,11 @@ public class ContainerSandMixer extends Container {
 
 		// Input slots
 		for (int x = 0; x < 3; x++) {
-			addSlotToContainer(new SlotSandMixer(sandMixer, x, 62 + 18 * x, 20));
+			addSlotToContainer(new SlotValidated(sandMixer, x, 62 + 18 * x, 20));
 		}
 
 		// Output slot
-		addSlotToContainer(new SlotSandMixer(sandMixer, 3, 80, 72));
+		addSlotToContainer(new SlotValidated(sandMixer, 3, 80, 72));
 	}
 
 	@Override
