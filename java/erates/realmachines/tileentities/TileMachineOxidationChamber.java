@@ -7,88 +7,9 @@ import erates.realmachines.recipes.Recipe;
 import erates.realmachines.recipes.RecipeHelper;
 
 public class TileMachineOxidationChamber extends TileEntityMachine {
-<<<<<<< HEAD
-	
-	private final SimpleInventory _inventory = new SimpleInventory(4, "OxidationChamber", 1);
-
-	public TileMachineOxidationChamber() {
-		super();
-		items = new ItemStack[4];
-	}
-
-	@Override
-	public int getSizeInventory() {
-		return _inventory.getSizeInventory();
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int i) {
-		return _inventory.getStackInSlot(i);
-	}
-
-	@Override
-	public ItemStack decrStackSize(int i, int count) {
-		return _inventory.decrStackSize(i, count);
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		return _inventory.getStackInSlotOnClosing(i);
-	}
-
-	@Override
-	public void setInventorySlotContents(int i, ItemStack itemStack) {
-		_inventory.setInventorySlotContents(slotId, itemstack);
-	}
-
-	@Override
-	public String getInventoryName() {
-		return _inventory.getInventoryName();
-	}
-
-	@Override
-	public boolean hasCustomInventoryName() {
-		return _inventory.hasCustomInventoryName();
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return _inventory.getInventoryStackLimit();
-	}
-
-	@Override
-	public void openInventory() {
-	}
-
-	@Override
-	public void closeInventory() {
-	}
-
-	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		return RecipeHelper.isStackValidForSlot(Recipe.OXIDATION_CHAMBER, itemStack, i);
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
-
-		NBTTagCompound inventoryTag = new NBTTagCompound();
-		_inventory.writeToNBT(inventoryTag);
-		compound.setTag("inventory", inventoryTag);
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
-
-		NBTTagCompound p = (NBTTagCompound) compound.getTag("inventory");
-		_inventory.readFromNBT(p);
-=======
 
 	public TileMachineOxidationChamber() {
 		super("OxidationChamber");
->>>>>>> pr/1
 	}
 
 	@Override
