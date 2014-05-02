@@ -1,28 +1,17 @@
 package erates.realmachines.tileentities;
 
-import buildcraft.BuildCraftFactory;
-import buildcraft.api.power.PowerHandler;
-import buildcraft.api.power.PowerHandler.PowerReceiver;
-import buildcraft.api.power.PowerHandler.Type;
-import erates.realmachines.recipes.Recipe;
-import erates.realmachines.recipes.RecipeHelper;
-import erates.realmachines.recipes.RecipeOxidationChamber;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.common.util.ForgeDirection;
+import buildcraft.core.inventory.SimpleInventory;
+import erates.realmachines.recipes.Recipe;
+import erates.realmachines.recipes.RecipeHelper;
 
 public class TileMachineOxidationChamber extends TileEntityMachine {
-	
+
 	private final SimpleInventory _inventory = new SimpleInventory(4, "OxidationChamber", 1);
 
 	public TileMachineOxidationChamber() {
 		super();
-		items = new ItemStack[4];
 	}
 
 	@Override
@@ -46,7 +35,7 @@ public class TileMachineOxidationChamber extends TileEntityMachine {
 	}
 
 	@Override
-	public void setInventorySlotContents(int i, ItemStack itemStack) {
+	public void setInventorySlotContents(int slotId, ItemStack itemstack) {
 		_inventory.setInventorySlotContents(slotId, itemstack);
 	}
 

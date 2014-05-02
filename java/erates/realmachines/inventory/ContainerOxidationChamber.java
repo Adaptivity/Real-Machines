@@ -14,8 +14,8 @@ public class ContainerOxidationChamber extends Container {
 
 	private TileMachineOxidationChamber oxidationChamber;
 
-	public ContainerOxidationChamber(InventoryPlayer invPlayer, TileMachineOxidationChamber te) {
-		super();
+	public ContainerOxidationChamber(InventoryPlayer invPlayer, TileMachineOxidationChamber oxidationChamber) {
+		this.oxidationChamber = oxidationChamber;
 
 		// Player hotbar
 		for (int x = 0; x < 9; x++) {
