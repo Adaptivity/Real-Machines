@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileMachineOxidationChamber extends TileEntityMachine implements IInventory {
+public class TileMachineOxidationChamber extends TileEntityMachine {
 
 	private ItemStack[] items;
 
@@ -81,11 +81,6 @@ public class TileMachineOxidationChamber extends TileEntityMachine implements II
 	@Override
 	public int getInventoryStackLimit() {
 		return 64;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
 	}
 
 	@Override

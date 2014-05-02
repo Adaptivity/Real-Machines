@@ -46,6 +46,12 @@ public class GuiOxidationChamber extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int x, int y) {
 		fontRendererObj.drawString("Oxidation Chamber", 8, 6, 0x404040);
-
 	}
+
+	@Override
+	public void initGui() {
+		super.initGui();
+	}
+	
+	
 }

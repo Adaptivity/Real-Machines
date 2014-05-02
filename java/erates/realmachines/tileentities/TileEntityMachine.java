@@ -1,11 +1,14 @@
 package erates.realmachines.tileentities;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import buildcraft.api.mj.MjBattery;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityMachine extends TileEntity {
+public class TileEntityMachine extends TileEntity implements IInventory {
 
 	// protected EnergyStorage storage = new EnergyStorage(32000);
 
@@ -66,5 +69,62 @@ public class TileEntityMachine extends TileEntity {
 	@SideOnly(Side.CLIENT)
 	public int getCookProgressScaled(int scale) {
 		return currentWorkTime * scale / 200;
+	}
+
+	@Override
+	public boolean isUseableByPlayer(EntityPlayer player) {
+		return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
+	}
+
+	@Override
+	public int getSizeInventory() {
+		return 0;
+	}
+
+	@Override
+	public ItemStack getStackInSlot(int var1) {
+		return null;
+	}
+
+	@Override
+	public ItemStack decrStackSize(int var1, int var2) {
+		return null;
+	}
+
+	@Override
+	public ItemStack getStackInSlotOnClosing(int var1) {
+		return null;
+	}
+
+	@Override
+	public void setInventorySlotContents(int var1, ItemStack var2) {
+	}
+
+	@Override
+	public String getInventoryName() {
+		return null;
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		return false;
+	}
+
+	@Override
+	public int getInventoryStackLimit() {
+		return 0;
+	}
+
+	@Override
+	public void openInventory() {
+	}
+
+	@Override
+	public void closeInventory() {
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int var1, ItemStack var2) {
+		return false;
 	}
 }
