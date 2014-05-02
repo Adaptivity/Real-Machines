@@ -10,12 +10,10 @@ import erates.realmachines.recipes.Recipe;
 import erates.realmachines.recipes.RecipeHelper;
 import erates.realmachines.tileentities.TileMachineOxidationChamber;
 
-public class ContainerOxidationChamber extends Container {
+public class ContainerOxidationChamber extends ContainerMachine {
 
-	private TileMachineOxidationChamber oxidationChamber;
-
-	public ContainerOxidationChamber(InventoryPlayer invPlayer, TileMachineOxidationChamber te) {
-		super();
+	public ContainerOxidationChamber(InventoryPlayer invPlayer, TileMachineOxidationChamber oxidationChamber) {
+		super(Recipe.OXIDATION_CHAMBER, oxidationChamber);
 
 		// Player hotbar
 		for (int x = 0; x < 9; x++) {
@@ -42,12 +40,7 @@ public class ContainerOxidationChamber extends Container {
 		addSlotToContainer(new SlotValidated(oxidationChamber, 3, 80, 64));
 	}
 
-	@Override
-	public boolean canInteractWith(EntityPlayer player) {
-		return oxidationChamber.isUseableByPlayer(player);
-	}
-
-	@Override
+	/*@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int i) {
 		Slot slot = getSlot(i);
 
@@ -126,9 +119,5 @@ public class ContainerOxidationChamber extends Container {
 		}
 
 		return null;
-	}
-
-	public TileMachineOxidationChamber getTileEntity() {
-		return oxidationChamber;
-	}
+	}*/
 }

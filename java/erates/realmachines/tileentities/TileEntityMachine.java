@@ -3,10 +3,14 @@ package erates.realmachines.tileentities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import buildcraft.api.mj.MjBattery;
+import buildcraft.core.inventory.SimpleInventory;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import erates.realmachines.recipes.Recipe;
+import erates.realmachines.recipes.RecipeHelper;
 
 public class TileEntityMachine extends TileEntity implements IInventory {
 
@@ -22,53 +26,11 @@ public class TileEntityMachine extends TileEntity implements IInventory {
 
 	protected boolean isWorking = false;
 
-	public TileEntityMachine() {
+	private final SimpleInventory _inventory;
+
+	public TileEntityMachine(String inventoryName) {
 		currentWorkTime = 0;
-	}
-
-	/*
-	 * IEnergyHandler
-	 */
-
-	/*
-	 * @Override public void readFromNBT(NBTTagCompound nbt) {
-	 * super.readFromNBT(nbt); storage.readFromNBT(nbt); }
-	 * 
-	 * @Override public void writeToNBT(NBTTagCompound nbt) {
-	 * super.writeToNBT(nbt); storage.writeToNBT(nbt); }
-	 * 
-	 * 
-	 * @Override public int receiveEnergy(ForgeDirection from, int maxReceive,
-	 * boolean simulate) { return storage.receiveEnergy(maxReceive, simulate); }
-	 * 
-	 * @Override public int extractEnergy(ForgeDirection from, int maxExtract,
-	 * boolean simulate) { return storage.extractEnergy(maxExtract, simulate); }
-	 * 
-	 * @Override public boolean canInterface(ForgeDirection from) { return true;
-	 * }
-	 * 
-	 * @Override public int getEnergyStored(ForgeDirection from) { return
-	 * storage.getEnergyStored(); }
-	 * 
-	 * @Override public int getMaxEnergyStored(ForgeDirection from) { return
-	 * storage.getMaxEnergyStored(); }
-	 */
-
-	public int getWorkDone() {
-		return currentWorkTime;
-	}
-
-	public void setWorkDone(int workDone) {
-		this.currentWorkTime = workDone;
-	}
-
-	public boolean isWorking() {
-		return isWorking;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public int getCookProgressScaled(int scale) {
-		return currentWorkTime * scale / 200;
+		_inventory = new SimpleInventory(4, inventoryName, 64);
 	}
 
 	@Override
@@ -78,41 +40,42 @@ public class TileEntityMachine extends TileEntity implements IInventory {
 
 	@Override
 	public int getSizeInventory() {
-		return 0;
+		return _inventory.getSizeInventory();
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int var1) {
-		return null;
+	public ItemStack getStackInSlot(int i) {
+		return _inventory.getStackInSlot(i);
 	}
 
 	@Override
-	public ItemStack decrStackSize(int var1, int var2) {
-		return null;
+	public ItemStack decrStackSize(int i, int count) {
+		return _inventory.decrStackSize(i, count);
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int var1) {
-		return null;
+	public ItemStack getStackInSlotOnClosing(int i) {
+		return _inventory.getStackInSlotOnClosing(i);
 	}
 
 	@Override
-	public void setInventorySlotContents(int var1, ItemStack var2) {
+	public void setInventorySlotContents(int slotId, ItemStack itemstack) {
+		_inventory.setInventorySlotContents(slotId, itemstack);
 	}
 
 	@Override
 	public String getInventoryName() {
-		return null;
+		return _inventory.getInventoryName();
 	}
 
 	@Override
 	public boolean hasCustomInventoryName() {
-		return false;
+		return _inventory.hasCustomInventoryName();
 	}
 
 	@Override
 	public int getInventoryStackLimit() {
-		return 0;
+		return _inventory.getInventoryStackLimit();
 	}
 
 	@Override
@@ -124,7 +87,24 @@ public class TileEntityMachine extends TileEntity implements IInventory {
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int var1, ItemStack var2) {
-		return false;
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		return RecipeHelper.isStackValidForSlot(Recipe.OXIDATION_CHAMBER, itemStack, i);
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound compound) {
+		super.writeToNBT(compound);
+
+		NBTTagCompound inventoryTag = new NBTTagCompound();
+		_inventory.writeToNBT(inventoryTag);
+		compound.setTag("inventory", inventoryTag);
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound compound) {
+		super.readFromNBT(compound);
+
+		NBTTagCompound p = (NBTTagCompound) compound.getTag("inventory");
+		_inventory.readFromNBT(p);
 	}
 }

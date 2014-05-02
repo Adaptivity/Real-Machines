@@ -17,6 +17,7 @@ public class TileMachineSandMixer extends TileEntityMachine implements IInventor
 	private ItemStack[]	items;
 
 	public TileMachineSandMixer() {
+		super("SandMixer");
 		items = new ItemStack[4];
 	}
 

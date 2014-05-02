@@ -31,7 +31,10 @@ public class RecipeHelper {
 
 		for (Recipe recipe : recipeList) {
 			if (recipe.getRecipeType() == recipeType) {
-				if (recipe.getInputItemStack(slotId).getUnlocalizedName().equals(stack.getUnlocalizedName())) return true;
+				ItemStack inputFromRecipe = recipe.getInputItemStack(slotId);
+				if (inputFromRecipe != null) {
+					if (inputFromRecipe.getUnlocalizedName().equals(stack.getUnlocalizedName())) return true;
+				}
 			}
 		}
 
