@@ -17,8 +17,8 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileMachineOxidationChamber extends TileEntityMachine {
-
-	private ItemStack[] items;
+	
+	private final SimpleInventory _inventory = new SimpleInventory(4, "OxidationChamber", 1);
 
 	public TileMachineOxidationChamber() {
 		super();
@@ -27,60 +27,42 @@ public class TileMachineOxidationChamber extends TileEntityMachine {
 
 	@Override
 	public int getSizeInventory() {
-		return items.length;
+		return _inventory.getSizeInventory();
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int i) {
-		return items[i];
+		return _inventory.getStackInSlot(i);
 	}
 
 	@Override
 	public ItemStack decrStackSize(int i, int count) {
-		ItemStack itemStack = getStackInSlot(i);
-
-		if (itemStack != null) {
-			if (itemStack.stackSize <= count) {
-				setInventorySlotContents(i, null);
-			} else {
-				itemStack = itemStack.splitStack(count);
-			}
-		}
-
-		return itemStack;
+		return _inventory.decrStackSize(i, count);
 	}
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int i) {
-		ItemStack item = getStackInSlot(i);
-
-		setInventorySlotContents(i, null);
-
-		return item;
+		return _inventory.getStackInSlotOnClosing(i);
 	}
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemStack) {
-		items[i] = itemStack;
-
-		if (itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
-			itemStack.stackSize = getInventoryStackLimit();
-		}
+		_inventory.setInventorySlotContents(slotId, itemstack);
 	}
 
 	@Override
 	public String getInventoryName() {
-		return "InventoryOxidationChamber";
+		return _inventory.getInventoryName();
 	}
 
 	@Override
 	public boolean hasCustomInventoryName() {
-		return false;
+		return _inventory.hasCustomInventoryName();
 	}
 
 	@Override
 	public int getInventoryStackLimit() {
-		return 64;
+		return _inventory.getInventoryStackLimit();
 	}
 
 	@Override
@@ -100,36 +82,17 @@ public class TileMachineOxidationChamber extends TileEntityMachine {
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 
-		NBTTagList items = new NBTTagList();
-
-		for (int i = 0; i < getSizeInventory(); i++) {
-			ItemStack stack = getStackInSlot(i);
-
-			if (stack != null) {
-				NBTTagCompound item = new NBTTagCompound();
-				item.setByte("Slot", (byte) i);
-				stack.writeToNBT(item);
-				items.appendTag(item);
-			}
-		}
-
-		compound.setTag("Items", items);
+		NBTTagCompound inventoryTag = new NBTTagCompound();
+		_inventory.writeToNBT(inventoryTag);
+		compound.setTag("inventory", inventoryTag);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 
-		NBTTagList items = compound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
-
-		for (int i = 0; i < items.tagCount(); i++) {
-			NBTTagCompound item = (NBTTagCompound) items.getCompoundTagAt(i);
-			int slot = item.getByte("Slot");
-
-			if (slot >= 0 && slot <= getSizeInventory()) {
-				setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(item));
-			}
-		}
+		NBTTagCompound p = (NBTTagCompound) compound.getTag("inventory");
+		_inventory.readFromNBT(p);
 	}
 
 	@Override
