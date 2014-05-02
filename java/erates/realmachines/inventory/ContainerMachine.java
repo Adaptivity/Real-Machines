@@ -76,9 +76,9 @@ public class ContainerMachine extends Container {
 
 	@Override
 	public void addCraftingToCrafters(ICrafting icrafting) {
-		super.addCraftingToCrafters(icrafting);
 		icrafting.sendProgressBarUpdate(this, 0, teMachine.getCurrentWorkTime());
 		icrafting.sendProgressBarUpdate(this, 1, teMachine.getMaxWorkTime());
+		super.addCraftingToCrafters(icrafting);
 	}
 
 	@Override

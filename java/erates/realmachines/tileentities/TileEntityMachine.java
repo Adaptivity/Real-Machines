@@ -22,8 +22,6 @@ public class TileEntityMachine extends TileEntity implements IInventory {
 	protected int currentWorkTime;
 	public static int MAX_WORK_TICKS = 20;
 
-	protected boolean isWorking = false;
-
 	private final SimpleInventory _inventory;
 	private int machineType;
 
@@ -109,7 +107,10 @@ public class TileEntityMachine extends TileEntity implements IInventory {
 	}
 
 	public int getCookProgressScaled(int i) {
-		return (currentWorkTime / MAX_WORK_TICKS) / i;
+		double deling = (double) currentWorkTime / (double) MAX_WORK_TICKS;
+		double vermenigvuldiging = deling * i;
+		int totaal = (int) vermenigvuldiging;
+		return totaal;
 	}
 
 	public int getCurrentWorkTime() {

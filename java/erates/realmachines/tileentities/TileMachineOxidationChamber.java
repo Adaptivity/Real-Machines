@@ -36,7 +36,6 @@ public class TileMachineOxidationChamber extends TileEntityMachine {
 				return;
 			}
 
-			isWorking = true;
 			currentWorkTime++;
 			if (currentWorkTime == MAX_WORK_TICKS) {
 
@@ -54,11 +53,9 @@ public class TileMachineOxidationChamber extends TileEntityMachine {
 					setInventorySlotContents(3, outputStack);
 				}
 				currentWorkTime = 0;
-				isWorking = false;
 			}
 		} else {
 			currentWorkTime = 0;
-			isWorking = false;
 		}
 	}
 }

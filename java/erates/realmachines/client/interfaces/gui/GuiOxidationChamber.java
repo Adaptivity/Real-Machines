@@ -34,9 +34,11 @@ public class GuiOxidationChamber extends GuiContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
 		int i1;
-		
-		i1 = oxidationChamber.getCookProgressScaled(14);
-		drawTexturedModalRect(guiLeft + 60, guiTop + 30, xSize, 0, i1, 8);
+
+		i1 = oxidationChamber.getCookProgressScaled(15);
+		drawTexturedModalRect(guiLeft + 61, guiTop + 28, xSize, 0, i1, 8);
+		drawTexturedModalRect(guiLeft + 115 - i1, guiTop + 28, xSize + 14 - i1, 8, i1, 8);
+		drawTexturedModalRect(guiLeft + 84, guiTop + 45, xSize, 16, 8, i1);
 	}
 
 	@Override
@@ -44,5 +46,4 @@ public class GuiOxidationChamber extends GuiContainer {
 		fontRendererObj.drawString("Oxidation Chamber", 8, 6, 0x404040);
 	}
 
-	
 }
