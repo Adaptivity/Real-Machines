@@ -14,8 +14,6 @@ import erates.realmachines.recipes.RecipeHelper;
 
 public class TileEntityMachine extends TileEntity implements IInventory {
 
-	// protected EnergyStorage storage = new EnergyStorage(32000);
-
 	@MjBattery(maxCapacity = 1500)
 	protected double mjStored = 0;
 
@@ -27,10 +25,12 @@ public class TileEntityMachine extends TileEntity implements IInventory {
 	protected boolean isWorking = false;
 
 	private final SimpleInventory _inventory;
+	private int machineType;
 
-	public TileEntityMachine(String inventoryName) {
+	public TileEntityMachine(String inventoryName, int machineType) {
 		currentWorkTime = 0;
 		_inventory = new SimpleInventory(4, inventoryName, 64);
+		this.machineType = machineType;
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class TileEntityMachine extends TileEntity implements IInventory {
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		return RecipeHelper.isStackValidForSlot(Recipe.OXIDATION_CHAMBER, itemStack, i);
+		return RecipeHelper.isStackValidForSlot(machineType, itemStack, i);
 	}
 
 	@Override

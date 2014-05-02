@@ -9,7 +9,7 @@ import erates.realmachines.recipes.RecipeHelper;
 public class TileMachineOxidationChamber extends TileEntityMachine {
 
 	public TileMachineOxidationChamber() {
-		super("OxidationChamber");
+		super("OxidationChamber", Recipe.OXIDATION_CHAMBER);
 	}
 
 	@Override
