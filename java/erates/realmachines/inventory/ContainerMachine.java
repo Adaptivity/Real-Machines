@@ -94,6 +94,9 @@ public class ContainerMachine extends Container {
 			if (maxWorkTime != teMachine.getMaxWorkTime()) {
 				iCrafting.sendProgressBarUpdate(this, 1, teMachine.getMaxWorkTime());
 			}
+
+			workTime = teMachine.getCurrentWorkTime();
+			maxWorkTime = teMachine.getMaxWorkTime();
 		}
 	}
 
